@@ -141,10 +141,6 @@ _stdout_capture.getvalue()
       // Format the result
       let output = capturedOutput || ''
       if (result !== undefined && result !== null && String(result) !== 'None') {
-        // Check if result is a DataFrame
-        const isDataFrame = await pyodide.runPythonAsync(`
-isinstance(${code.split('=')[0].trim() if '=' in code else '_'} if '${code.split('=')[0].trim() if '=' in code else '_'}' in dir() else None, pd.DataFrame) if 'pd' in dir() else False
-`)
         if (output) {
           output += '\n'
         }
