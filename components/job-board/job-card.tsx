@@ -2,7 +2,8 @@
 
 import { Job } from '@/lib/job-data'
 import { Badge } from '@/components/ui/badge'
-import { MapPin, Building2, Clock, Calendar } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { MapPin, Building2, Calendar, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface JobCardProps {
@@ -81,11 +82,15 @@ export function JobCard({ job, onClick }: JobCardProps) {
           </div>
         </div>
 
-        {job.salary && (
-          <div className="sm:text-right flex-shrink-0">
+        <div className="sm:text-right flex-shrink-0 flex flex-col items-end gap-2">
+          {job.salary && (
             <p className="font-medium text-foreground">{job.salary}</p>
-          </div>
-        )}
+          )}
+          <Button variant="outline" size="sm" className="gap-1 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+            View Details
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </button>
   )

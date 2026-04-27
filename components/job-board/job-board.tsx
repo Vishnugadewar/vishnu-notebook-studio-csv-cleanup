@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Job, sampleJobs, jobTypes } from '@/lib/job-data'
+import { Job, sampleJobs, jobTypes, jobLocations } from '@/lib/job-data'
 import { JobCard } from './job-card'
 import { JobForm } from './job-form'
 import { JobDetailModal } from './job-detail-modal'
@@ -21,6 +21,7 @@ export function JobBoard() {
   const [jobs, setJobs] = useState<Job[]>(sampleJobs)
   const [searchQuery, setSearchQuery] = useState('')
   const [typeFilter, setTypeFilter] = useState<string>('All')
+  const [locationFilter, setLocationFilter] = useState<string>('All')
   const [showForm, setShowForm] = useState(false)
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
 
@@ -32,10 +33,11 @@ export function JobBoard() {
         job.location.toLowerCase().includes(searchQuery.toLowerCase())
 
       const matchesType = typeFilter === 'All' || job.type === typeFilter
+      const matchesLocation = locationFilter === 'All' || job.location === locationFilter
 
-      return matchesSearch && matchesType
+      return matchesSearch && matchesType && matchesLocation
     })
-  }, [jobs, searchQuery, typeFilter])
+  }, [jobs, searchQuery, typeFilter, locationFilter])
 
   const handleAddJob = (newJob: Omit<Job, 'id' | 'postedDate'>) => {
     const job: Job = {
@@ -64,20 +66,23 @@ export function JobBoard() {
             <div className="p-2 rounded-lg bg-primary/10">
               <Briefcase className="h-6 w-6 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">Job Board</h1>
+            <h1 className="text-2xl font-bold text-foreground">Demo Job Board</h1>
+            <span className="px-3 py-1 text-xs font-medium rounded-full bg-warning/20 text-warning-foreground border border-warning/30">
+              Sample Data Only - Not Real Jobs
+            </span>
           </div>
           <p className="text-muted-foreground">
             Explore data science and healthcare analytics opportunities
           </p>
         </div>
 
-        {/* Demo Notice */}
+        {/* Demo Notice Banner */}
         <div className="mb-6 p-4 rounded-lg bg-warning/10 border border-warning/30 flex items-start gap-3">
           <AlertCircle className="h-5 w-5 text-warning-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="font-medium text-warning-foreground">Demo / Sample Data</p>
+            <p className="font-medium text-warning-foreground">All jobs listed are fictional and for demonstration purposes only</p>
             <p className="text-sm text-muted-foreground">
-              This is a demonstration job board with sample listings. Job applications are not functional.
+              This is a demonstration job board with sample listings. Job applications are disabled and no external links are available.
             </p>
           </div>
         </div>
@@ -94,13 +99,25 @@ export function JobBoard() {
             />
           </div>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="w-full sm:w-48">
-              <SelectValue placeholder="Filter by type" />
+            <SelectTrigger className="w-full sm:w-40">
+              <SelectValue placeholder="Job Type" />
             </SelectTrigger>
             <SelectContent>
               {jobTypes.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type} {jobTypeCounts[type] ? `(${jobTypeCounts[type]})` : ''}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={locationFilter} onValueChange={setLocationFilter}>
+            <SelectTrigger className="w-full sm:w-44">
+              <SelectValue placeholder="Location" />
+            </SelectTrigger>
+            <SelectContent>
+              {jobLocations.map((loc) => (
+                <SelectItem key={loc} value={loc}>
+                  {loc}
                 </SelectItem>
               ))}
             </SelectContent>
