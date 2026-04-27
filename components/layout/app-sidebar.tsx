@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, FileText, Trash2, File, BarChart3, BookOpen, Briefcase } from 'lucide-react'
+import { Plus, FileText, Trash2, File, BarChart3, BookOpen, Briefcase, PieChart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
@@ -57,6 +57,18 @@ export function AppSidebar() {
           >
             <Briefcase className="h-4 w-4" />
             Job Board
+          </button>
+          <button
+            onClick={() => setViewMode('jobs-dashboard')}
+            className={cn(
+              'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors',
+              viewMode === 'jobs-dashboard'
+                ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            <PieChart className="h-4 w-4" />
+            Jobs Analytics
           </button>
         </div>
       </div>
