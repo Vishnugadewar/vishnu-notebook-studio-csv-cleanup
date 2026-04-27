@@ -10,6 +10,7 @@ import { NotebookView } from './notebook/notebook-view'
 import { DataPanel } from './csv/data-panel'
 import { CommandPalette } from './command-palette'
 import { WelcomePanel } from './welcome-panel'
+import { EDADashboard } from './dashboard/eda-dashboard'
 import {
   ResizableHandle,
   ResizablePanel,
@@ -20,6 +21,7 @@ export function NotebookStudio() {
   const theme = useNotebookStore((state) => state.theme)
   const activeNotebookId = useNotebookStore((state) => state.activeNotebookId)
   const notebooks = useNotebookStore((state) => state.notebooks)
+  const viewMode = useNotebookStore((state) => state.viewMode)
   const { addCell } = useNotebookStore()
   const { isReady, isLoading } = usePyodide()
 
@@ -80,21 +82,25 @@ export function NotebookStudio() {
       <div className="flex-1 flex overflow-hidden">
         <AppSidebar />
 
-        <ResizablePanelGroup direction="horizontal" className="flex-1">
-          <ResizablePanel defaultSize={70} minSize={40}>
-            {activeNotebookId ? (
-              <NotebookView notebookId={activeNotebookId} />
-            ) : (
-              <WelcomePanel />
-            )}
-          </ResizablePanel>
+        {viewMode === 'eda-dashboard' ? (
+          <EDADashboard />
+        ) : (
+          <ResizablePanelGroup direction="horizontal" className="flex-1">
+            <ResizablePanel defaultSize={70} minSize={40}>
+              {activeNotebookId ? (
+                <NotebookView notebookId={activeNotebookId} />
+              ) : (
+                <WelcomePanel />
+              )}
+            </ResizablePanel>
 
-          <ResizableHandle withHandle />
+            <ResizableHandle withHandle />
 
-          <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
-            <DataPanel onAddCode={handleAddCode} />
-          </ResizablePanel>
-        </ResizablePanelGroup>
+            <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
+              <DataPanel onAddCode={handleAddCode} />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        )}
       </div>
 
       <CommandPalette />
