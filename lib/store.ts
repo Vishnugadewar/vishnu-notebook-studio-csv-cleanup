@@ -32,7 +32,7 @@ export interface CSVDataset {
   rowCount: number
 }
 
-type ViewMode = 'notebook' | 'eda-dashboard'
+type ViewMode = 'notebook' | 'eda-dashboard' | 'job-board'
 
 interface NotebookState {
   notebooks: Notebook[]

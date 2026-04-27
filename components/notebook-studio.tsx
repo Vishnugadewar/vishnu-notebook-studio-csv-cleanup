@@ -11,6 +11,7 @@ import { DataPanel } from './csv/data-panel'
 import { CommandPalette } from './command-palette'
 import { WelcomePanel } from './welcome-panel'
 import { EDADashboard } from './dashboard/eda-dashboard'
+import { JobBoard } from './job-board/job-board'
 import {
   ResizableHandle,
   ResizablePanel,
@@ -84,6 +85,8 @@ export function NotebookStudio() {
 
         {viewMode === 'eda-dashboard' ? (
           <EDADashboard />
+        ) : viewMode === 'job-board' ? (
+          <JobBoard />
         ) : (
           <ResizablePanelGroup direction="horizontal" className="flex-1">
             <ResizablePanel defaultSize={70} minSize={40}>

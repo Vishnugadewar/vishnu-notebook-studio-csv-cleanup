@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, FileText, Trash2, File, BarChart3, BookOpen } from 'lucide-react'
+import { Plus, FileText, Trash2, File, BarChart3, BookOpen, Briefcase } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
@@ -45,6 +45,18 @@ export function AppSidebar() {
           >
             <BarChart3 className="h-4 w-4" />
             EDA Dashboard
+          </button>
+          <button
+            onClick={() => setViewMode('job-board')}
+            className={cn(
+              'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors',
+              viewMode === 'job-board'
+                ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            <Briefcase className="h-4 w-4" />
+            Job Board
           </button>
         </div>
       </div>
