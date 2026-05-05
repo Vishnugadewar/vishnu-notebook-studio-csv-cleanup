@@ -32,6 +32,8 @@ export interface CSVDataset {
   rowCount: number
 }
 
+type ViewMode = 'notebook' | 'eda-dashboard' | 'job-board' | 'jobs-dashboard'
+
 interface NotebookState {
   notebooks: Notebook[]
   activeNotebookId: string | null
@@ -41,6 +43,7 @@ interface NotebookState {
   theme: 'light' | 'dark'
   commandPaletteOpen: boolean
   activeCellId: string | null
+  viewMode: ViewMode
   
   // Notebook actions
   createNotebook: (name?: string) => string
@@ -64,6 +67,7 @@ interface NotebookState {
   toggleSidebar: () => void
   toggleTheme: () => void
   setCommandPaletteOpen: (open: boolean) => void
+  setViewMode: (mode: ViewMode) => void
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 15)
@@ -96,6 +100,7 @@ export const useNotebookStore = create<NotebookState>()(
       theme: 'dark',
       commandPaletteOpen: false,
       activeCellId: null,
+      viewMode: 'notebook',
       
       createNotebook: (name) => {
         const notebook = createDefaultNotebook(name)
@@ -214,6 +219,8 @@ export const useNotebookStore = create<NotebookState>()(
         set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
       
       setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
+      
+      setViewMode: (mode) => set({ viewMode: mode }),
     }),
     {
       name: 'notebook-studio-storage',

@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, FileText, Trash2, File } from 'lucide-react'
+import { Plus, FileText, Trash2, File, BarChart3, BookOpen, Briefcase, PieChart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
@@ -11,13 +11,68 @@ export function AppSidebar() {
   const activeNotebookId = useNotebookStore((state) => state.activeNotebookId)
   const datasets = useNotebookStore((state) => state.datasets)
   const sidebarOpen = useNotebookStore((state) => state.sidebarOpen)
-  const { createNotebook, deleteNotebook, setActiveNotebook, setActiveDataset } =
+  const viewMode = useNotebookStore((state) => state.viewMode)
+  const { createNotebook, deleteNotebook, setActiveNotebook, setActiveDataset, setViewMode } =
     useNotebookStore()
 
   if (!sidebarOpen) return null
 
   return (
     <aside className="w-64 flex-shrink-0 border-r border-border bg-sidebar flex flex-col">
+      {/* Navigation */}
+      <div className="p-2 border-b border-sidebar-border">
+        <div className="space-y-1">
+          <button
+            onClick={() => setViewMode('notebook')}
+            className={cn(
+              'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors',
+              viewMode === 'notebook'
+                ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            <BookOpen className="h-4 w-4" />
+            Notebook
+          </button>
+          <button
+            onClick={() => setViewMode('eda-dashboard')}
+            className={cn(
+              'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors',
+              viewMode === 'eda-dashboard'
+                ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            <BarChart3 className="h-4 w-4" />
+            EDA Dashboard
+          </button>
+          <button
+            onClick={() => setViewMode('job-board')}
+            className={cn(
+              'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors',
+              viewMode === 'job-board'
+                ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            <Briefcase className="h-4 w-4" />
+            Job Board
+          </button>
+          <button
+            onClick={() => setViewMode('jobs-dashboard')}
+            className={cn(
+              'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors',
+              viewMode === 'jobs-dashboard'
+                ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            <PieChart className="h-4 w-4" />
+            Jobs Analytics
+          </button>
+        </div>
+      </div>
+
       {/* Notebooks section */}
       <div className="flex-1 flex flex-col min-h-0">
         <div className="flex items-center justify-between px-4 py-3 border-b border-sidebar-border">
